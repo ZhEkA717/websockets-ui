@@ -1,1 +1,3 @@
-console.log('Start ws-task!')
+import { createWebsocketServer } from './ws-server';
+
+createWebsocketServer();

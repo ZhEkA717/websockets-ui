@@ -7,5 +7,6 @@ module.exports = {
     printWidth: 120,
     bracketSameLine: false,
     singleAttributePerLine: true,
+    singleQuote: true
   };
   
