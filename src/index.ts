@@ -1,0 +1,1 @@
+console.log('Start ws-task!')
