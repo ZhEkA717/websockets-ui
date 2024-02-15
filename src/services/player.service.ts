@@ -16,15 +16,20 @@ export const deletePlayer = (id: number) => {
 };
 
 export const savePlayer = (id: number, name: string, ws: WebSocket): boolean => {
-  const isExist: TypePlayer | undefined = searchPlayer(id);
+  const isExist: TypePlayer | undefined = players.find(item => item.name === name);
 
   if (!isExist) players.push({ id, name, ws });
   return !!isExist;
 };
 
 export const addUserToRoom = (indexRoom: number, playerId: number) => {
-  const room = searchRoom(indexRoom) as TypeRoom;
+  const { roomUsers } = searchRoom(indexRoom) as TypeRoom;
   const { name, id: index } = searchPlayer(playerId) as TypePlayer;
-  const length = room.roomUsers.length;
-  if (length < 2) room.roomUsers.push({ name, index });
+  const length = roomUsers.length;
+  const isExist = roomUsers.find(item => item.index === playerId);
+  if (length < 2 && !isExist) {
+    roomUsers.push({ name, index });
+    return true;
+  }
+  return false;
 };

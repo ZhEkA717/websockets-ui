@@ -10,7 +10,7 @@ export const createPlayerRequest = (index: number, msg: string, ws: WebSocket) =
   const { name } = JSON.parse(data as string);
 
   const isExist = savePlayer(index, name, ws);
-
+  
   const dataRes: TypeDataPlayerResponse = {
     name,
     index,

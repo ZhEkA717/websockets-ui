@@ -1,11 +1,17 @@
+import { TypeGame } from '../types/game.type';
 import { TypePlayer } from '../types/player.type';
 import { TypeRoom } from '../types/room.type';
+import { TypeShips } from '../types/ship.type';
 
 export const PORT = Number(process.env.PORT) || 3000;
 
 export const players: TypePlayer[] = [];
 
 export const rooms: TypeRoom[] = [];
+
+export const games: TypeGame[] = [];
+
+export const shipsInGame: TypeShips[] = [];
 
 export const enum CommandTypes {
   reg = 'reg',
