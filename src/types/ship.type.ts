@@ -1,15 +1,20 @@
 import { CommandTypes, ID_TYPE } from '../utils/constants';
+import { WebSocket } from 'ws';
 
 export type TypeRequestAddShips = {
   type: CommandTypes.addShips;
-  data: TypeShips | string;
+  data: TypeRequestDataAddShips | string;
   id: ID_TYPE;
 };
 
-export type TypeShips = {
+export type TypeRequestDataAddShips = {
   gameId: number;
   ships: TypeShip[];
   indexPlayer: number;
+};
+
+export type TypeShips = TypeRequestDataAddShips & {
+  ws: WebSocket;
 };
 
 export type TypeShip = {

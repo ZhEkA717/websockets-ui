@@ -1,6 +1,7 @@
 import { getWsFromRoom, saveGame } from '../services/game.service';
-import { TypeResponseCreateGame } from '../types/game.type';
-import { CommandTypes, ID_VALUE } from '../utils/constants';
+import { TypeResponseCreateGame, TypeResponseStartGame } from '../types/game.type';
+import { TypeRequestDataAddShips, TypeShips } from '../types/ship.type';
+import { CommandTypes, ID_VALUE, rooms, shipsInGame } from '../utils/constants';
 
 export const createGame = (indexRoom: number, idPlayer: number) => {
   const wsInRoom = getWsFromRoom(indexRoom);
@@ -20,4 +21,19 @@ export const createGame = (indexRoom: number, idPlayer: number) => {
   wsInRoom.forEach((ws) => {
     ws.send(JSON.stringify(responseCreateGame));
   });
+};
+
+export const startGame = (index: number) => {
+  shipsInGame
+    .filter((item) => item.indexPlayer === index)
+    .forEach((item) => {
+      const { ships, indexPlayer: currentPlayerIndex, ws } = item as TypeShips;
+      const responseStartGame: TypeResponseStartGame = {
+        type: CommandTypes.startGame,
+        data: JSON.stringify({ ships, currentPlayerIndex }),
+        id: ID_VALUE,
+      };
+
+      ws.send(JSON.stringify(responseStartGame));
+    });
 };

@@ -33,7 +33,7 @@ export const createWebsocketServer = () => {
           addUserToRoomRequest(playerId, msg);
           break;
         case CommandTypes.addShips:
-          addShipRequest(playerId, msg);
+          addShipRequest(msg, ws);
           break;
       }
     });
