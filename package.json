@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Template for the WebSocket remote control task",
   "scripts": {
+    "start:front": "nodemon index.ts",
     "start:dev": "cross-env MODE_ENV=dev nodemon src/index.ts",
     "start:prod": "npm run build && npm run prod",
     "prod": "cross-env MODE_ENV=production node dist/index.js",

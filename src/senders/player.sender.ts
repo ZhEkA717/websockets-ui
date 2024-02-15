@@ -1,7 +1,8 @@
 import { WebSocket } from 'ws';
-import { TypePlayerDataResponse, TypeRequestCreatePlayer, TypeResponseCreatePlayer } from '../types/player';
+import { TypeDataPlayerResponse, TypeRequestCreatePlayer, TypeResponseCreatePlayer } from '../types/player.type';
 import { ErrorTextResponse } from '../utils/constants';
 import { savePlayer } from '../services/player.service';
+import { updateRoom } from './room.sender';
 
 export const createPlayer = (index: number, msg: string, ws: WebSocket) => {
   const { type, data, id } = JSON.parse(msg) as TypeRequestCreatePlayer;
@@ -9,7 +10,7 @@ export const createPlayer = (index: number, msg: string, ws: WebSocket) => {
 
   const isExist = savePlayer(index, name, ws);
 
-  const dataRes: TypePlayerDataResponse = {
+  const dataRes: TypeDataPlayerResponse = {
     name,
     index,
     error: isExist,
@@ -22,6 +23,7 @@ export const createPlayer = (index: number, msg: string, ws: WebSocket) => {
   };
 
   ws.send(JSON.stringify(res));
+  updateRoom();
 };
 
 

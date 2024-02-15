@@ -1,10 +1,13 @@
-import { TypePlayer } from '../types/player';
+import { TypePlayer } from '../types/player.type';
+import { TypeRoom } from '../types/room.type';
 
 export const PORT = Number(process.env.PORT) || 3000;
 
 export const players: TypePlayer[] = [];
 
-export const enum ListCommand {
+export const rooms: TypeRoom[] = [];
+
+export const enum CommandTypes {
   reg = 'reg',
   updateWinners = 'update_winners',
   createRoom = 'create_room',

@@ -1,23 +1,24 @@
 import { WebSocket } from 'ws';
+import { CommandTypes } from '../utils/constants';
 
 export type TypeRequestCreatePlayer = {
-  type: 'reg';
-  data: string | TypePlayerDataRequest;
+  type: CommandTypes.reg;
+  data: string | TypeDataPlayerRequest;
   id: 0;
 };
 
 export type TypeResponseCreatePlayer = {
-  type: 'reg';
-  data: string | TypePlayerDataResponse; // JSON.stringify(data: TypePlayerDataResponse)
+  type: CommandTypes.reg;
+  data: string | TypeDataPlayerResponse; // JSON.stringify(data: TypePlayerDataResponse)
   id: 0;
 };
 
-export type TypePlayerDataRequest = {
+export type TypeDataPlayerRequest = {
   name: string;
   password: string;
 };
 
-export type TypePlayerDataResponse = {
+export type TypeDataPlayerResponse = {
   name: string;
   index: number;
   error: boolean;

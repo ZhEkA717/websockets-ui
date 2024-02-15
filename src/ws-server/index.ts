@@ -1,7 +1,9 @@
 import ws, { WebSocket } from 'ws';
-import { ListCommand, PORT } from '../utils/constants';
+import { CommandTypes, PORT } from '../utils/constants';
 import {  deletePlayer } from '../services/player.service';
 import { createPlayer } from '../senders/player.sender';
+import { createRoom, updateRoom } from '../senders/room.sender';
+import { deleteRoom } from '../services/room.service';
 
 export const createWebsocketServer = () => {
   const { Server } = ws;
@@ -11,23 +13,29 @@ export const createWebsocketServer = () => {
   });
 
   wss.on('connection', (ws: WebSocket) => {
-    console.log('connection');
+    const playerId: number = new Date().valueOf();
+    const roomId = new Date().valueOf();
 
-    const index: number = new Date().valueOf();
+    console.log(`Connection player ${playerId}`);
 
 
     ws.on('message', (msg: string) => {
       const { type } = JSON.parse(msg);
       switch (type) {
-        case ListCommand.reg:
-          createPlayer(index, msg, ws);
+        case CommandTypes.reg:
+          createPlayer(playerId, msg, ws);
+          break;
+        case CommandTypes.createRoom:
+          createRoom(playerId, roomId);
           break;
       }
     });
 
     ws.on('close', () => {
-        deletePlayer(index);
-        console.log(`Client ${index} disconnected`);
+        deletePlayer(playerId);
+        deleteRoom(roomId);
+        updateRoom();
+        console.log(`Client ${playerId} disconnected`);
       });
   });
 };
