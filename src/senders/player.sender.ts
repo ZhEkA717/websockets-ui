@@ -1,29 +1,13 @@
 import { WebSocket } from 'ws';
-import { TypeDataPlayerResponse, TypeRequestCreatePlayer, TypeResponseCreatePlayer } from '../types/player.type';
-import { ErrorTextResponse } from '../utils/constants';
-import { savePlayer } from '../services/player.service';
-import { updateRoom } from './room.sender';
+import { TypeDataPlayerResponse, TypeResponseCreatePlayer } from '../types/player.type';
+import { CommandTypes, ID_VALUE } from '../utils/constants';
 
-export const createPlayer = (index: number, msg: string, ws: WebSocket) => {
-  const { type, data, id } = JSON.parse(msg) as TypeRequestCreatePlayer;
-  const { name } = JSON.parse(data as string);
-
-  const isExist = savePlayer(index, name, ws);
-
-  const dataRes: TypeDataPlayerResponse = {
-    name,
-    index,
-    error: isExist,
-    errorText: ErrorTextResponse.req,
-  };
+export const createPlayerResponse = (data: TypeDataPlayerResponse, ws: WebSocket) => {
   const res: TypeResponseCreatePlayer = {
-    type,
-    data: JSON.stringify(dataRes),
-    id,
+    type: CommandTypes.reg,
+    data: JSON.stringify(data),
+    id: ID_VALUE,
   };
 
   ws.send(JSON.stringify(res));
-  updateRoom();
 };
-
-

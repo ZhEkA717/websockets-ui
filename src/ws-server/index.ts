@@ -1,9 +1,10 @@
 import ws, { WebSocket } from 'ws';
 import { CommandTypes, PORT } from '../utils/constants';
 import {  deletePlayer } from '../services/player.service';
-import { createPlayer } from '../senders/player.sender';
-import { createRoom, updateRoom } from '../senders/room.sender';
+import { updateRoom } from '../senders/room.sender';
 import { deleteRoom } from '../services/room.service';
+import { addUserToRoomRequest, createRoomRequest } from '../handlers/room.handler';
+import { createPlayerRequest } from '../handlers/player.handler';
 
 export const createWebsocketServer = () => {
   const { Server } = ws;
@@ -23,10 +24,13 @@ export const createWebsocketServer = () => {
       const { type } = JSON.parse(msg);
       switch (type) {
         case CommandTypes.reg:
-          createPlayer(playerId, msg, ws);
+          createPlayerRequest(playerId, msg, ws);
           break;
         case CommandTypes.createRoom:
-          createRoom(playerId, roomId);
+          createRoomRequest(playerId, roomId);
+          break;
+        case CommandTypes.addUserToRoom:
+          addUserToRoomRequest(playerId, msg);
           break;
       }
     });

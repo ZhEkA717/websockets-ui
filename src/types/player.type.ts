@@ -1,16 +1,16 @@
 import { WebSocket } from 'ws';
-import { CommandTypes } from '../utils/constants';
+import { CommandTypes, ID_TYPE } from '../utils/constants';
 
 export type TypeRequestCreatePlayer = {
   type: CommandTypes.reg;
   data: string | TypeDataPlayerRequest;
-  id: 0;
+  id: ID_TYPE;
 };
 
 export type TypeResponseCreatePlayer = {
   type: CommandTypes.reg;
   data: string | TypeDataPlayerResponse; // JSON.stringify(data: TypePlayerDataResponse)
-  id: 0;
+  id: ID_TYPE;
 };
 
 export type TypeDataPlayerRequest = {

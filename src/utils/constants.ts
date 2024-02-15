@@ -25,3 +25,6 @@ export const enum CommandTypes {
 export const enum ErrorTextResponse {
   req = 'Player is already exist!',
 }
+
+export type ID_TYPE = 0;
+export const ID_VALUE = 0;
