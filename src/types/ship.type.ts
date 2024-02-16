@@ -1,5 +1,5 @@
 import { CommandTypes, ID_TYPE } from '../utils/constants';
-import { WebSocket } from 'ws';
+import { TypePlayer } from './player.type';
 
 export type TypeRequestAddShips = {
   type: CommandTypes.addShips;
@@ -9,15 +9,20 @@ export type TypeRequestAddShips = {
 
 export type TypeRequestDataAddShips = {
   gameId: number;
-  ships: TypeShip[];
+  ships: TypeShips[];
   indexPlayer: number;
 };
 
-export type TypeShips = TypeRequestDataAddShips & {
-  ws: WebSocket;
+export type TypeShip = {
+  gameId: number;
+  data: TypeShipData[];
 };
 
-export type TypeShip = {
+export type TypeShipData = TypePlayer & {
+  ships: TypeShips[]
+}
+
+export type TypeShips = {
   position: {
     x: number;
     y: number;

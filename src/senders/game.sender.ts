@@ -1,39 +1,46 @@
-import { getWsFromRoom, saveGame } from '../services/game.service';
-import { TypeResponseCreateGame, TypeResponseStartGame } from '../types/game.type';
-import { TypeRequestDataAddShips, TypeShips } from '../types/ship.type';
-import { CommandTypes, ID_VALUE, rooms, shipsInGame } from '../utils/constants';
+import { getPlayerFromRoom, saveGame } from '../services/game.service';
+import { searchShip } from '../services/ship.service';
+import { TypeGame, TypeResponseCreateGame, TypeResponseDataGame, TypeResponseStartGame } from '../types/game.type';
+import { TypePlayer } from '../types/player.type';
+import { TypeShip, TypeShipData } from '../types/ship.type';
+import { CommandTypes, ID_VALUE, games } from '../utils/constants';
 
-export const createGame = (indexRoom: number, idPlayer: number) => {
-  const wsInRoom = getWsFromRoom(indexRoom);
-  const data = {
-    idGame: new Date().valueOf(),
-    idPlayer,
-  };
+export const createGame = (indexRoom: number) => {
+  const playersInRoom: TypePlayer[] = getPlayerFromRoom(indexRoom);
+  const idGame = new Date().valueOf();
 
-  saveGame(data);
+  saveGame(idGame, playersInRoom);
 
-  const responseCreateGame: TypeResponseCreateGame = {
-    type: CommandTypes.createGame,
-    data: JSON.stringify(data),
-    id: ID_VALUE,
-  };
+  const game: TypeGame | undefined = games.find(game => game.idGame === idGame);
 
-  wsInRoom.forEach((ws) => {
-    ws.send(JSON.stringify(responseCreateGame));
-  });
-};
+  if (game) {
+    const { players } = game;
+    players.forEach((player) => {
+      const data: TypeResponseDataGame = {
+        idGame,
+        idPlayer: player.id,
+      };
 
-export const startGame = (index: number) => {
-  shipsInGame
-    .filter((item) => item.indexPlayer === index)
-    .forEach((item) => {
-      const { ships, indexPlayer: currentPlayerIndex, ws } = item as TypeShips;
-      const responseStartGame: TypeResponseStartGame = {
-        type: CommandTypes.startGame,
-        data: JSON.stringify({ ships, currentPlayerIndex }),
+      const responseCreateGame: TypeResponseCreateGame = {
+        type: CommandTypes.createGame,
+        data: JSON.stringify(data),
         id: ID_VALUE,
       };
 
-      ws.send(JSON.stringify(responseStartGame));
+      player.ws.send(JSON.stringify(responseCreateGame));
     });
+  }
+};
+
+export const startGame = (gameId: number) => {
+  const { data } = searchShip(gameId) as TypeShip;
+  data.forEach(item => {
+    const { id: currentPlayerIndex, ships, ws } = item as TypeShipData;
+    const responseStartGame: TypeResponseStartGame = {
+      type: CommandTypes.startGame,
+      data: JSON.stringify({ ships, currentPlayerIndex }),
+      id: ID_VALUE,
+    };
+    ws.send(JSON.stringify(responseStartGame));
+  })
 };

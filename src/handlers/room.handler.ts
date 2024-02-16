@@ -1,7 +1,7 @@
 import { createGame } from '../senders/game.sender';
 import { updateRoom } from '../senders/room.sender';
 import { addUserToRoom, searchPlayer } from '../services/player.service';
-import { saveRoom, searchRoom } from '../services/room.service';
+import { saveRoom } from '../services/room.service';
 import { TypePlayer } from '../types/player.type';
 import { TypeRequestAddUserToRoom, TypeRoom } from '../types/room.type';
 
@@ -18,7 +18,7 @@ export const addUserToRoomRequest = (playerId: number, msg: string): void => {
   const { indexRoom } = JSON.parse(data as string);
   const isAdding = addUserToRoom(indexRoom, playerId);
   if (isAdding) {
-    createGame(indexRoom, playerId);
+    createGame(indexRoom);
     updateRoom();
   }
 };
