@@ -21,7 +21,8 @@ export type TypeShip = {
 
 export type TypeShipData = TypePlayer & {
   ships: TypeShips[],
-  shipsModified: TypeModifyShips[]
+  shipsModified: TypeModifyShips[],
+  shipsAlive: number
 }
 
 export type TypeModifyShips = {

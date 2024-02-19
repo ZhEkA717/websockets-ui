@@ -7,8 +7,9 @@ export const saveShip = (data: TypeRequestDataAddShips) => {
   const player = searchPlayer(indexPlayer);
   const shipInGame = searchShip(gameId);
   const shipsModified = shipPositions(ships);
+  const shipsAlive = ships.length;
   if (player) {
-    const dataShip: TypeShipData = { ...player, ships, shipsModified };
+    const dataShip: TypeShipData = { ...player, ships, shipsModified, shipsAlive };
 
     if (shipInGame) {
       shipInGame.data.push(dataShip);
@@ -27,7 +28,7 @@ export const saveShip = (data: TypeRequestDataAddShips) => {
 export const searchShip = (id: number): TypeShip | undefined => shipsInGame.find(ship => ship.gameId === id);
 
 const shipPositions = (ships: TypeShips[]): TypeModifyShips[] => {
-  return ships.map(({direction,position: {x, y}, length}) => {
+  return ships.map(({direction, position: {x, y}, length}) => {
     let positions: {x:number, y:number, status: TypeStatusShip}[] = [];
     const status: TypeStatusShip = ShipStatus.alive;
     if (direction) {

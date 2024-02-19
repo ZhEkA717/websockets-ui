@@ -9,11 +9,7 @@ export const turn = (idGame: number) => {
   const { data } = searchShip(idGame) as TypeShip;
   const [player1, player2]:TypeShipData[] = data as TypeShipData[];
 
-  if (currentPlayer) {
-    currentPlayer = currentPlayer === player1.id ? player2.id : player1.id; 
-  } else {
-    currentPlayer = player1.id;
-  }
+  currentPlayer = getCurrentPlayer(player1.id, player2.id);
 
   turnInGame[idGame] = currentPlayer;
 
@@ -22,7 +18,17 @@ export const turn = (idGame: number) => {
     data: JSON.stringify({ currentPlayer }),
     id: ID_VALUE,
   };
-
-  player1.ws.send(JSON.stringify(responseTurn));
-  player2.ws.send(JSON.stringify(responseTurn));
+  
+  data.forEach(({ws}) => {
+    ws.send(JSON.stringify(responseTurn));
+  })
 };
+
+const getCurrentPlayer = (id1: number, id2: number): number => {
+  if (currentPlayer) {
+    currentPlayer = currentPlayer === id1 ? id2 : id1; 
+  } else {
+    currentPlayer = [id1, id2][Math.floor(Math.random() * 2)];
+  }
+  return currentPlayer;
+}
