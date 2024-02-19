@@ -6,7 +6,7 @@ import { deleteRoom } from '../services/room.service';
 import { addUserToRoomRequest, createRoomRequest } from '../handlers/room.handler';
 import { createPlayerRequest } from '../handlers/player.handler';
 import { addShipRequest } from '../handlers/ship.handler';
-import { attackRequest } from '../handlers/attack.handler';
+import { attackRequest, randomAttackRequest } from '../handlers/attack.handler';
 
 export const createWebsocketServer = () => {
   const { Server } = ws;
@@ -38,6 +38,9 @@ export const createWebsocketServer = () => {
           break;
         case CommandTypes.attack:
           attackRequest(msg);
+          break;
+        case CommandTypes.randomAttack:
+          randomAttackRequest(msg);
           break;
       }
     });

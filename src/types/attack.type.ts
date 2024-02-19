@@ -13,6 +13,12 @@ export type TypeDataRequestAttack = {
     indexPlayer: number
 }
 
+export type TypeRequestRandomAttack = {
+    type: CommandTypes.randomAttack,
+    data: Omit<TypeDataRequestAttack, "x" | "y"> | string
+    id: ID_TYPE
+} 
+
 export type TypeResponseAttack = {
     type: CommandTypes.attack,
     data: TypeDataResponseAttack | string
