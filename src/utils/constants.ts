@@ -3,10 +3,13 @@ import { TypePlayer } from '../types/player.type';
 import { TypeRoom } from '../types/room.type';
 import { TypeShip } from '../types/ship.type';
 import { TypeTurnInGame } from '../types/turn.type';
+import { TypeWinners } from '../types/updateWinners.type';
 
 export const PORT = Number(process.env.PORT) || 3000;
 
 export const players: TypePlayer[] = [];
+
+export const winners: TypeWinners[] = [];
 
 export const rooms: TypeRoom[] = [];
 

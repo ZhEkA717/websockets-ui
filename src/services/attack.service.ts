@@ -1,7 +1,7 @@
 import { TypeStatusAttack } from "../types/attack.type";
-import { TypeShip, TypeShipData, TypeStatusShip } from "../types/ship.type";
+import { TypeShipData, TypeStatusShip } from "../types/ship.type";
 import { ShipStatus } from "../utils/constants";
-import { getLengthShip, searchShip } from "./ship.service";
+import { getLengthShip } from "./ship.service";
 
 export const attackPlayer = (player: TypeShipData, x: number, y: number): TypeStatusAttack | false => {
     let status: TypeStatusAttack = ShipStatus.miss;
@@ -27,13 +27,4 @@ export const attackPlayer = (player: TypeShipData, x: number, y: number): TypeSt
     };
 
     return status;
-}
-
-export const isFinish = (gameId: number) => {
-    
-  const shipsInGame: TypeShip | undefined = searchShip(gameId);
-
-  const [player1, player2] = shipsInGame?.data as TypeShipData[];
-     
-  return player1.shipsAlive === 0 || player2.shipsAlive === 0;
 }

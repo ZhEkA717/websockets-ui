@@ -4,12 +4,14 @@ import { updateRoom } from '../senders/room.sender';
 import { savePlayer } from '../services/player.service';
 import { TypeDataPlayerResponse, TypeRequestCreatePlayer } from '../types/player.type';
 import { ErrorTextResponse } from '../utils/constants';
+import { saveWinner, updateWinners } from '../senders/updateWinners.sender';
 
 export const createPlayerRequest = (index: number, msg: string, ws: WebSocket) => {
   const { data } = JSON.parse(msg) as TypeRequestCreatePlayer;
   const { name } = JSON.parse(data as string);
 
   const isExist = savePlayer(index, name, ws);
+  !isExist && saveWinner(index);
   
   const dataRes: TypeDataPlayerResponse = {
     name,
@@ -19,4 +21,5 @@ export const createPlayerRequest = (index: number, msg: string, ws: WebSocket) =
   };
   createPlayerResponse(dataRes, ws);
   updateRoom();
+  updateWinners();
 };

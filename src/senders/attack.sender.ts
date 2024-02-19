@@ -1,9 +1,12 @@
-import { isFinish } from "../services/attack.service";
+import { isFinish } from "../services/finish.service";
 import { searchShip } from "../services/ship.service";
 import { TypeDataRequestAttack, TypeDataResponseAttack, TypeStatusAttack } from "../types/attack.type";
 import { CommandTypes, ID_VALUE, ShipStatus } from "../utils/constants";
-import { finishResponse } from "./finish.sender";
 import { turn } from "./turn.sender";
+import { finish } from './finish.sender'
+import { updateWinners } from "./updateWinners.sender";
+import { deleteRoom, searchRoomByIdPlayer } from "../services/room.service";
+import { TypeRoom } from "../types/room.type";
 
 export const attackResponse = (data: TypeDataRequestAttack, status: TypeStatusAttack) => {
     const { indexPlayer, gameId, x, y } = data;
@@ -25,9 +28,10 @@ export const attackResponse = (data: TypeDataRequestAttack, status: TypeStatusAt
     })
 
     if (isFinish(gameId)) {
-        shipInGame?.data.forEach(({ws}) => {
-            ws.send(finishResponse(indexPlayer));
-        })
+        finish(shipInGame?.data, indexPlayer);
+        const { roomId } = searchRoomByIdPlayer(indexPlayer) as TypeRoom;
+        deleteRoom(roomId);
+        updateWinners();
         return;
     }
 

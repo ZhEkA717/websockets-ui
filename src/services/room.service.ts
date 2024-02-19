@@ -21,3 +21,9 @@ export const deleteRoom = (id: number) => {
 };
 
 export const searchRoom = (id: number): TypeRoom | undefined => rooms.find((item) => item.roomId === id);
+
+export const searchRoomByIdPlayer = (idPlayer: number): TypeRoom | undefined => {
+  return rooms.find(({roomUsers}) => {
+    return roomUsers.find(({index}) => index === idPlayer);
+  })
+}
