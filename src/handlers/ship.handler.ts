@@ -2,7 +2,6 @@ import { startGame } from '../senders/game.sender';
 import { turn } from '../senders/turn.sender';
 import { saveShip } from '../services/ship.service';
 import { TypeRequestAddShips, TypeRequestDataAddShips } from '../types/ship.type';
-import { shipsInGame } from '../utils/constants';
 
 export const addShipRequest = (message: string) => {
   const req = JSON.parse(message) as TypeRequestAddShips;

@@ -7,3 +7,7 @@ export type TypeResponseTurn = {
   } | string;
   id: ID_TYPE;
 };
+
+export type TypeTurnInGame = {
+  [key: number] : number; // idGame: idPlayer
+} 
