@@ -7,6 +7,7 @@ import { addUserToRoomRequest, createRoomRequest } from '../handlers/room.handle
 import { createPlayerRequest } from '../handlers/player.handler';
 import { addShipRequest } from '../handlers/ship.handler';
 import { attackRequest, randomAttackRequest } from '../handlers/attack.handler';
+import { updateWinners } from '../senders/updateWinners.sender';
 
 export const createWebsocketServer = () => {
   const { Server } = ws;
