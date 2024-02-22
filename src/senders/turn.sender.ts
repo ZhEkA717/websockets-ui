@@ -1,3 +1,4 @@
+import { log } from '../services/log.service';
 import { searchShip } from '../services/ship.service';
 import { TypeShip, TypeShipData } from '../types/ship.type';
 import { TypeResponseTurn } from '../types/turn.type';
@@ -22,6 +23,7 @@ export const turn = (idGame: number) => {
   data.forEach(({ ws }) => {
     ws.send(JSON.stringify(responseTurn));
   });
+  log(CommandTypes.turn, currentPlayer);
 };
 
 const getCurrentPlayer = (id1: number, id2: number): number => {

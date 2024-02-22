@@ -1,9 +1,10 @@
 import { WebSocket } from 'ws';
 import { TypeDataPlayerRequest, TypePlayer } from '../types/player.type';
-import { players } from '../utils/constants';
+import { CommandTypes, players } from '../utils/constants';
 import { TypeRoom } from '../types/room.type';
 import { searchRoom } from './room.service';
 import bcrypt from 'bcryptjs';
+import { log } from './log.service';
 
 export const searchPlayer = (id: number): TypePlayer | undefined => players.find((item) => item.id === id);
 
@@ -52,6 +53,7 @@ export const addUserToRoom = (indexRoom: number, playerId: number) => {
   const isExist = roomUsers.find((item) => item.index === playerId);
   if (length < 2 && !isExist) {
     roomUsers.push({ name, index });
+    log(CommandTypes.addUserToRoom, name, index.toString());
     return true;
   }
   return false;

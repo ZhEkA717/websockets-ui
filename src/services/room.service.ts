@@ -1,7 +1,8 @@
 import { TypePlayer } from '../types/player.type';
 import { TypeRoom } from '../types/room.type';
-import { players, rooms } from '../utils/constants';
+import { CommandTypes, players, rooms } from '../utils/constants';
 import { WebSocket } from 'ws';
+import { log } from './log.service';
 
 export const saveRoom = (name: string, index: number): boolean => {
   const isExist = searchRoomByIdPlayer(index);
@@ -10,6 +11,7 @@ export const saveRoom = (name: string, index: number): boolean => {
     const roomId = new Date().valueOf();
     const roomUsers = [{ name, index }];
     rooms.push({ roomId, roomUsers });
+    log(CommandTypes.createRoom, name, roomId.toString());
   }
 
   return !isExist;

@@ -41,7 +41,6 @@ export const createWebsocketServer = () => {
           randomAttackRequest(msg);
           break;
       }
-      log(type);
     });
 
     ws.on('close', (_closeCode: number) => {

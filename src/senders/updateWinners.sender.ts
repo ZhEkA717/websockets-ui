@@ -1,3 +1,4 @@
+import { log } from '../services/log.service';
 import { searchPlayer } from '../services/player.service';
 import { TypePlayer } from '../types/player.type';
 import { TypeResponseDataWinner, TypeResponseUpdateWinner } from '../types/updateWinners.type';
@@ -15,6 +16,7 @@ export const updateWinners = () => {
     };
     ws.send(JSON.stringify(res));
   });
+  log(CommandTypes.updateWinners);
 };
 
 export const saveWinner = (idPlayer: number) => {

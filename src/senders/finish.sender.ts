@@ -1,3 +1,4 @@
+import { log } from '../services/log.service';
 import { searchPlayer } from '../services/player.service';
 import { TypeFinishResponse } from '../types/finish.type';
 import { TypePlayer } from '../types/player.type';
@@ -24,4 +25,5 @@ export const finish = (data: TypeShipData[] | undefined, idPlayer: number) => {
   }
   const winner = searchWinner(idPlayer);
   winner && winner.wins++;
+  log(CommandTypes.finish, `Win: ${winner?.player.name}`);
 };

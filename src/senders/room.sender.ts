@@ -1,3 +1,4 @@
+import { log } from '../services/log.service';
 import { TypeResponseUpdateRoom } from '../types/room.type';
 import { CommandTypes, ID_VALUE, players, rooms } from '../utils/constants';
 
@@ -13,4 +14,6 @@ export const updateRoom = () => {
   players.forEach(({ ws }) => {
     ws.send(JSON.stringify(responseUpdateRoom));
   });
+
+  log(CommandTypes.updateRoom);
 };

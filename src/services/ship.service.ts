@@ -6,7 +6,8 @@ import {
   TypeShips,
   TypeStatusShip,
 } from '../types/ship.type';
-import { ShipStatus, shipsInGame } from '../utils/constants';
+import { CommandTypes, ShipStatus, shipsInGame } from '../utils/constants';
+import { log } from './log.service';
 import { searchPlayer } from './player.service';
 
 export const saveShip = (data: TypeRequestDataAddShips) => {
@@ -28,6 +29,7 @@ export const saveShip = (data: TypeRequestDataAddShips) => {
       ship.data.push(dataShip);
       shipsInGame.push(ship);
     }
+    log(CommandTypes.addShips, `GameId: ${gameId}` , `PlayerId: ${indexPlayer}`)
   }
   return searchShip(gameId)?.data.length === 2;
 };

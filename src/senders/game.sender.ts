@@ -1,4 +1,5 @@
 import { getPlayerFromRoom, saveGame } from '../services/game.service';
+import { log } from '../services/log.service';
 import { searchShip } from '../services/ship.service';
 import { TypeGame, TypeResponseCreateGame, TypeResponseDataGame, TypeResponseStartGame } from '../types/game.type';
 import { TypePlayer } from '../types/player.type';
@@ -29,6 +30,7 @@ export const createGame = (indexRoom: number) => {
 
       player.ws.send(JSON.stringify(responseCreateGame));
     });
+    log(CommandTypes.createGame, `GameId: ${idGame}`, `RoomId: ${indexRoom}`)
   }
 };
 
@@ -43,4 +45,5 @@ export const startGame = (gameId: number) => {
     };
     ws.send(JSON.stringify(responseStartGame));
   });
+  log(CommandTypes.startGame, `GameID: ${gameId}`);
 };
