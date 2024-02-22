@@ -6,7 +6,6 @@ import { turn } from './turn.sender';
 import { finish } from './finish.sender';
 import { updateWinners } from './updateWinners.sender';
 import { deleteRoom, searchRoomByIdPlayer } from '../services/room.service';
-import { TypeRoom } from '../types/room.type';
 import { log } from '../services/log.service';
 
 export const attackResponse = (data: TypeDataRequestAttack, status: TypeStatusAttack, type: CommandTypes) => {
@@ -29,16 +28,4 @@ export const attackResponse = (data: TypeDataRequestAttack, status: TypeStatusAt
   });
 
   log(type, indexPlayer, status);
-
-  if (isFinish(gameId)) {
-    finish(shipInGame?.data, indexPlayer);
-    const { roomId } = searchRoomByIdPlayer(indexPlayer) as TypeRoom;
-    deleteRoom(roomId);
-    updateWinners();
-    return;
-  }
-
-  if (status !== ShipStatus.shot && status !== ShipStatus.killed) {
-    turn(gameId);
-  }
 };
