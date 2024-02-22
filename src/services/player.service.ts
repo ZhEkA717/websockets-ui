@@ -33,10 +33,12 @@ export const savePlayer = async (
     id = new Date().valueOf();
     const encryptedPassword = await bcrypt.hash(password, 10);
     players.push({ id, name, password: encryptedPassword, ws });
-  } else {
+  } else if (isExist && isPassword) {
     id = isExist.id;
     isExist.ws.close();
     isExist.ws = ws;
+  } else {
+    id = new Date().valueOf();
   }
 
   return {

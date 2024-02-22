@@ -28,7 +28,7 @@ export const attackRequest = (msg: string) => {
     }
   
     if (status !== ShipStatus.shot && status !== ShipStatus.killed) {
-      turn(gameId);
+      status && turn(gameId);
     }
   }
 };
