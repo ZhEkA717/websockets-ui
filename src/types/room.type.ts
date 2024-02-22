@@ -22,8 +22,10 @@ export type TypeRoom = {
 
 export type TypeRequestAddUserToRoom = {
   type: CommandTypes.addUserToRoom;
-  data: {
-    indexRoom: number;
-  } | string;
+  data:
+    | {
+        indexRoom: number;
+      }
+    | string;
   id: ID_TYPE;
 };

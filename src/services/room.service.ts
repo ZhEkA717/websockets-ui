@@ -1,12 +1,16 @@
+import { TypePlayer } from '../types/player.type';
 import { TypeRoom } from '../types/room.type';
-import { rooms } from '../utils/constants';
+import { players, rooms } from '../utils/constants';
+import { WebSocket } from 'ws';
 
-export const saveRoom = (room: TypeRoom): boolean => {
-  const { roomId } = room;
+export const saveRoom = (name: string, index: number): boolean => {
+  const isExist = searchRoomByIdPlayer(index);
 
-  const isExist = searchRoom(roomId);
-
-  if (!isExist) rooms.push(room);
+  if (!isExist) {
+    const roomId = new Date().valueOf();
+    const roomUsers = [{ name, index }];
+    rooms.push({ roomId, roomUsers });
+  }
 
   return !isExist;
 };
@@ -20,10 +24,24 @@ export const deleteRoom = (id: number) => {
   }
 };
 
+export const deleteUserFromRoom = (ws: WebSocket) => {
+  const player: TypePlayer | undefined = players.find((item) => item.ws === ws);
+  const room = player && searchRoomByIdPlayer(player?.id) as TypeRoom;
+  if (player && room) {
+    if (room.roomUsers.length === 2) {
+      const playerInRoom = room.roomUsers.find((item) => item.index === player.id);
+      const index = room.roomUsers.indexOf(playerInRoom as { name: string; index: number });
+      room.roomUsers.splice(index, 1);
+    } else {
+      deleteRoom(room.roomId);
+    }
+  }
+};
+
 export const searchRoom = (id: number): TypeRoom | undefined => rooms.find((item) => item.roomId === id);
 
 export const searchRoomByIdPlayer = (idPlayer: number): TypeRoom | undefined => {
-  return rooms.find(({roomUsers}) => {
-    return roomUsers.find(({index}) => index === idPlayer);
-  })
-}
+  return rooms.find(({ roomUsers }) => {
+    return roomUsers.find(({ index }) => index === idPlayer);
+  });
+};

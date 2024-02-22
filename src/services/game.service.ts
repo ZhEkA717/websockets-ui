@@ -16,4 +16,4 @@ export const getPlayerFromRoom = (indexRoom: number): TypePlayer[] => {
 export const saveGame = (idGame: number, players: TypePlayer[]) => {
   const game: TypeGame = { idGame, players };
   games.push(game);
-}
+};

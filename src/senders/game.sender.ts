@@ -11,7 +11,7 @@ export const createGame = (indexRoom: number) => {
 
   saveGame(idGame, playersInRoom);
 
-  const game: TypeGame | undefined = games.find(game => game.idGame === idGame);
+  const game: TypeGame | undefined = games.find((game) => game.idGame === idGame);
 
   if (game) {
     const { players } = game;
@@ -34,7 +34,7 @@ export const createGame = (indexRoom: number) => {
 
 export const startGame = (gameId: number) => {
   const { data } = searchShip(gameId) as TypeShip;
-  data.forEach(item => {
+  data.forEach((item) => {
     const { id: currentPlayerIndex, ships, ws } = item as TypeShipData;
     const responseStartGame: TypeResponseStartGame = {
       type: CommandTypes.startGame,
@@ -42,5 +42,5 @@ export const startGame = (gameId: number) => {
       id: ID_VALUE,
     };
     ws.send(JSON.stringify(responseStartGame));
-  })
+  });
 };

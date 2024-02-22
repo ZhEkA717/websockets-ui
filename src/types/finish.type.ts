@@ -1,9 +1,11 @@
-import { CommandTypes, ID_TYPE } from "../utils/constants"
+import { CommandTypes, ID_TYPE } from '../utils/constants';
 
 export type TypeFinishResponse = {
-    type: CommandTypes.finish,
-    data: {
-        winPlayer: number,
-    } | string,
-    id: ID_TYPE
-}
+  type: CommandTypes.finish;
+  data:
+    | {
+        winPlayer: number;
+      }
+    | string;
+  id: ID_TYPE;
+};

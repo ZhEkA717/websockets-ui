@@ -20,10 +20,10 @@ export type TypeShip = {
 };
 
 export type TypeShipData = TypePlayer & {
-  ships: TypeShips[],
-  shipsModified: TypeModifyShips[],
-  shipsAlive: number
-}
+  ships: TypeShips[];
+  shipsModified: TypeModifyShips[];
+  shipsAlive: number;
+};
 
 export type TypeModifyShips = {
   positions: {
@@ -31,7 +31,7 @@ export type TypeModifyShips = {
     y: number;
     status: TypeStatusShip;
   }[];
-}
+};
 
 export type TypeShips = {
   position: {
@@ -42,5 +42,5 @@ export type TypeShips = {
   length: number;
   type: TypeSizeShip;
 };
-export type TypeStatusShip = 'alive' | TypeStatusAttack; 
+export type TypeStatusShip = 'alive' | TypeStatusAttack;
 type TypeSizeShip = 'small' | 'medium' | 'large' | 'huge';

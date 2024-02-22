@@ -1,41 +1,41 @@
-import { isFinish } from "../services/finish.service";
-import { searchShip } from "../services/ship.service";
-import { TypeDataRequestAttack, TypeDataResponseAttack, TypeStatusAttack } from "../types/attack.type";
-import { CommandTypes, ID_VALUE, ShipStatus } from "../utils/constants";
-import { turn } from "./turn.sender";
-import { finish } from './finish.sender'
-import { updateWinners } from "./updateWinners.sender";
-import { deleteRoom, searchRoomByIdPlayer } from "../services/room.service";
-import { TypeRoom } from "../types/room.type";
+import { isFinish } from '../services/finish.service';
+import { searchShip } from '../services/ship.service';
+import { TypeDataRequestAttack, TypeDataResponseAttack, TypeStatusAttack } from '../types/attack.type';
+import { CommandTypes, ID_VALUE, ShipStatus } from '../utils/constants';
+import { turn } from './turn.sender';
+import { finish } from './finish.sender';
+import { updateWinners } from './updateWinners.sender';
+import { deleteRoom, searchRoomByIdPlayer } from '../services/room.service';
+import { TypeRoom } from '../types/room.type';
 
 export const attackResponse = (data: TypeDataRequestAttack, status: TypeStatusAttack) => {
-    const { indexPlayer, gameId, x, y } = data;
-    const shipInGame = searchShip(gameId);
+  const { indexPlayer, gameId, x, y } = data;
+  const shipInGame = searchShip(gameId);
 
-    shipInGame?.data.forEach(item => {
-        const data: TypeDataResponseAttack = {
-            position: {x, y},
-            currentPlayer: indexPlayer,
-            status
-        }
-        const response = {
-            type: CommandTypes.attack,
-            data: JSON.stringify(data),
-            id: ID_VALUE
-        }
+  shipInGame?.data.forEach((item) => {
+    const data: TypeDataResponseAttack = {
+      position: { x, y },
+      currentPlayer: indexPlayer,
+      status,
+    };
+    const response = {
+      type: CommandTypes.attack,
+      data: JSON.stringify(data),
+      id: ID_VALUE,
+    };
 
-        item.ws.send(JSON.stringify(response));
-    })
+    item.ws.send(JSON.stringify(response));
+  });
 
-    if (isFinish(gameId)) {
-        finish(shipInGame?.data, indexPlayer);
-        const { roomId } = searchRoomByIdPlayer(indexPlayer) as TypeRoom;
-        deleteRoom(roomId);
-        updateWinners();
-        return;
-    }
+  if (isFinish(gameId)) {
+    finish(shipInGame?.data, indexPlayer);
+    const { roomId } = searchRoomByIdPlayer(indexPlayer) as TypeRoom;
+    deleteRoom(roomId);
+    updateWinners();
+    return;
+  }
 
-    if (status !== ShipStatus.shot && status !== ShipStatus.killed) {
-        turn(gameId);
-    }
-}
+  if (status !== ShipStatus.shot && status !== ShipStatus.killed) {
+    turn(gameId);
+  }
+};

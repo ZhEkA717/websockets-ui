@@ -14,15 +14,17 @@ export type TypeResponseDataGame = {
 };
 
 export type TypeGame = {
-  idGame: number,
-  players: TypePlayer[] // length === 2 players in room
-}
+  idGame: number;
+  players: TypePlayer[]; // length === 2 players in room
+};
 
 export type TypeResponseStartGame = {
   type: CommandTypes.startGame;
-  data: {
-    ships: TypeShip[];
-    currentPlayerIndex: number;
-  } | string;
+  data:
+    | {
+        ships: TypeShip[];
+        currentPlayerIndex: number;
+      }
+    | string;
   id: ID_TYPE;
 };

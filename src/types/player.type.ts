@@ -28,5 +28,6 @@ export type TypeDataPlayerResponse = {
 export type TypePlayer = {
   id: number;
   name: string;
+  password: string;
   ws: WebSocket;
 };

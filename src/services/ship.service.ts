@@ -1,4 +1,11 @@
-import { TypeModifyShips, TypeRequestDataAddShips, TypeShip, TypeShipData, TypeShips, TypeStatusShip } from '../types/ship.type';
+import {
+  TypeModifyShips,
+  TypeRequestDataAddShips,
+  TypeShip,
+  TypeShipData,
+  TypeShips,
+  TypeStatusShip,
+} from '../types/ship.type';
 import { ShipStatus, shipsInGame } from '../utils/constants';
 import { searchPlayer } from './player.service';
 
@@ -16,8 +23,8 @@ export const saveShip = (data: TypeRequestDataAddShips) => {
     } else {
       const ship: TypeShip = {
         gameId,
-        data: []
-      }
+        data: [],
+      };
       ship.data.push(dataShip);
       shipsInGame.push(ship);
     }
@@ -25,26 +32,26 @@ export const saveShip = (data: TypeRequestDataAddShips) => {
   return searchShip(gameId)?.data.length === 2;
 };
 
-export const searchShip = (id: number): TypeShip | undefined => shipsInGame.find(ship => ship.gameId === id);
+export const searchShip = (id: number): TypeShip | undefined => shipsInGame.find((ship) => ship.gameId === id);
 
 const shipPositions = (ships: TypeShips[]): TypeModifyShips[] => {
-  return ships.map(({direction, position: {x, y}, length}) => {
-    let positions: {x:number, y:number, status: TypeStatusShip}[] = [];
+  return ships.map(({ direction, position: { x, y }, length }) => {
+    let positions: { x: number; y: number; status: TypeStatusShip }[] = [];
     const status: TypeStatusShip = ShipStatus.alive;
     if (direction) {
       for (let i = 0; i <= length - 1; i++) {
-        positions.push({x, y: y + i, status})
+        positions.push({ x, y: y + i, status });
       }
     } else {
       for (let i = 0; i <= length - 1; i++) {
-        positions.push({x: x + i, y, status})
+        positions.push({ x: x + i, y, status });
       }
     }
 
     return { positions };
-  })
-}
+  });
+};
 
 export const getLengthShip = (ship: TypeModifyShips): number => {
-  return ship.positions.filter(item => item.status === ShipStatus.alive).length;
-}
+  return ship.positions.filter((item) => item.status === ShipStatus.alive).length;
+};

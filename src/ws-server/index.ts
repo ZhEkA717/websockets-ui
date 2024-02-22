@@ -1,13 +1,12 @@
 import ws, { WebSocket } from 'ws';
-import { CommandTypes, PORT } from '../utils/constants';
-import { deletePlayer } from '../services/player.service';
+import { CommandTypes, PORT, players, rooms } from '../utils/constants';
 import { updateRoom } from '../senders/room.sender';
-import { deleteRoom } from '../services/room.service';
 import { addUserToRoomRequest, createRoomRequest } from '../handlers/room.handler';
 import { createPlayerRequest } from '../handlers/player.handler';
 import { addShipRequest } from '../handlers/ship.handler';
 import { attackRequest, randomAttackRequest } from '../handlers/attack.handler';
-import { updateWinners } from '../senders/updateWinners.sender';
+import { log } from '../services/log.service';
+import { deleteUserFromRoom } from '../services/room.service';
 
 export const createWebsocketServer = () => {
   const { Server } = ws;
@@ -17,22 +16,20 @@ export const createWebsocketServer = () => {
   });
 
   wss.on('connection', (ws: WebSocket) => {
-    const playerId: number = new Date().valueOf();
-    const roomId = new Date().valueOf();
-
-    console.log(`Connection player ${playerId}`);
+    const idSocket = new Date().valueOf();
+    console.log(`New socket connection. Id socket: ${idSocket}`);
 
     ws.on('message', (msg: string) => {
       const { type } = JSON.parse(msg);
       switch (type) {
         case CommandTypes.reg:
-          createPlayerRequest(playerId, msg, ws);
+          createPlayerRequest(msg, ws);
           break;
         case CommandTypes.createRoom:
-          createRoomRequest(playerId, roomId);
+          createRoomRequest(ws);
           break;
         case CommandTypes.addUserToRoom:
-          addUserToRoomRequest(playerId, msg);
+          addUserToRoomRequest(msg, ws);
           break;
         case CommandTypes.addShips:
           addShipRequest(msg);
@@ -44,13 +41,13 @@ export const createWebsocketServer = () => {
           randomAttackRequest(msg);
           break;
       }
+      log(type);
     });
 
-    ws.on('close', () => {
-      deletePlayer(playerId);
-      deleteRoom(roomId);
+    ws.on('close', (_closeCode: number) => {
+      console.log(`Old socket disconnection. id: ${idSocket}`);
+      deleteUserFromRoom(ws);
       updateRoom();
-      console.log(`Client ${playerId} disconnected`);
     });
   });
 };
