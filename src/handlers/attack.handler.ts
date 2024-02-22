@@ -20,7 +20,7 @@ export const attackRequest = (msg: string) => {
     status && attackResponse({ indexPlayer, gameId, x, y }, status, type);
     status === ShipStatus.killed && shipExplosion(player, { indexPlayer, gameId, x, y }, type);
     if (isFinish(gameId)) {
-      finish(searchShip(gameId)?.data, indexPlayer);
+      finish(ship?.data, indexPlayer);
       const room = searchRoomByIdPlayer(indexPlayer);
       room && deleteRoom(room.roomId);
       updateWinners();
