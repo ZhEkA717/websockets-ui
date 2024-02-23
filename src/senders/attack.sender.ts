@@ -23,8 +23,8 @@ export const attackResponse = (data: TypeDataRequestAttack, status: TypeStatusAt
       data: JSON.stringify(data),
       id: ID_VALUE,
     };
-
-    item.ws.send(JSON.stringify(response));
+    if (item.ws)
+      item.ws.send(JSON.stringify(response));
   });
 
   log(type, indexPlayer, status);

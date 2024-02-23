@@ -29,5 +29,5 @@ export type TypePlayer = {
   id: number;
   name: string;
   password: string;
-  ws: WebSocket;
+  ws?: WebSocket;
 };

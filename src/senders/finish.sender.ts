@@ -20,7 +20,7 @@ export const getFinishResponse = (idPlayer: number): string => {
 export const finish = (data: TypeShipData[] | undefined, idPlayer: number) => {
   if (data) {
     data.forEach(({ ws }) => {
-      ws.send(getFinishResponse(idPlayer));
+      ws?.send(getFinishResponse(idPlayer));
     });
   }
   const winner = searchWinner(idPlayer);

@@ -19,7 +19,7 @@ export const deletePlayer = (id: number) => {
 
 export const savePlayer = async (
   data: TypeDataPlayerRequest,
-  ws: WebSocket,
+  ws?: WebSocket,
 ): Promise<{
   id: number;
   isExist: boolean;
@@ -35,7 +35,7 @@ export const savePlayer = async (
     players.push({ id, name, password: encryptedPassword, ws });
   } else if (isExist && isPassword) {
     id = isExist.id;
-    isExist.ws.close();
+    isExist.ws?.close();
     isExist.ws = ws;
   } else {
     id = new Date().valueOf();

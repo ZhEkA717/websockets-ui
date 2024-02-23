@@ -14,7 +14,7 @@ export const updateWinners = () => {
       data: JSON.stringify(data),
       id: ID_VALUE,
     };
-    ws.send(JSON.stringify(res));
+    ws?.send(JSON.stringify(res));
   });
   log(CommandTypes.updateWinners);
 };

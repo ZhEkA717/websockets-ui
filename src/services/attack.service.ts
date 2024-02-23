@@ -6,7 +6,7 @@ import { getLengthShip } from './ship.service';
 export const attackPlayer = (player: TypeShipData, x: number, y: number): TypeStatusAttack | false => {
   let status: TypeStatusAttack = ShipStatus.miss;
   let position: { x: number; y: number; status: TypeStatusShip } | undefined;
-  const isShot = player.shipsModified.find(({ positions }) => {
+  const isShot = player?.shipsModified.find(({ positions }) => {
     position = positions.find((pos) => pos.x === x && pos.y === y);
     return position;
   });

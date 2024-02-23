@@ -1,3 +1,5 @@
+import { attackResponse } from '../senders/attack.sender';
+import { TypeDataRequestAttack, TypeStatusAttack } from '../types/attack.type';
 import {
   TypeModifyShips,
   TypeRequestDataAddShips,
@@ -36,7 +38,7 @@ export const saveShip = (data: TypeRequestDataAddShips) => {
 
 export const searchShip = (id: number): TypeShip | undefined => shipsInGame.find((ship) => ship.gameId === id);
 
-const shipPositions = (ships: TypeShips[]): TypeModifyShips[] => {
+export const shipPositions = (ships: TypeShips[]): TypeModifyShips[] => {
   return ships.map(({ direction, position: { x, y }, length }) => {
     let positions: { x: number; y: number; status: TypeStatusShip }[] = [];
     const status: TypeStatusShip = ShipStatus.alive;
@@ -57,3 +59,48 @@ const shipPositions = (ships: TypeShips[]): TypeModifyShips[] => {
 export const getLengthShip = (ship: TypeModifyShips): number => {
   return ship.positions.filter((item) => item.status === ShipStatus.alive).length;
 };
+
+export const shipExplosion = (
+  player: TypeShipData,
+  { indexPlayer, gameId, x, y }: TypeDataRequestAttack,
+  type: CommandTypes,
+) => {
+  let position: { x: number; y: number; status: TypeStatusShip } | undefined;
+  const isShot = player.shipsModified.find(({ positions }) => {
+    position = positions.find((pos) => pos.x === x && pos.y === y);
+    return position;
+  });
+
+  const { positions } = isShot as TypeModifyShips;
+
+  const explosionArray = getExplosionArray(positions);
+
+  explosionArray.forEach(({ x, y, status }) => {
+    attackResponse({ indexPlayer, gameId, x, y }, status, type);
+  });
+};
+
+export const getExplosionArray = (positions:{x: number, y: number, status?: TypeStatusShip}[] ) => {
+  const explosionArray: { x: number; y: number; status: TypeStatusAttack }[] = [];
+  positions.forEach(({ x, y }) => {
+    const status = ShipStatus.miss;
+    explosionArray.push({ x: x - 1, y , status });
+    explosionArray.push({ x: x + 1, y, status });  
+    explosionArray.push({ x, y: y - 1 , status });
+    explosionArray.push({ x, y: y + 1, status });  
+    explosionArray.push({ x: x - 1, y: y - 1, status });
+    explosionArray.push({ x: x + 1, y: y + 1, status });
+    explosionArray.push({ x: x - 1, y: y + 1, status });
+    explosionArray.push({ x: x + 1, y: y - 1, status });
+  });
+  positions.forEach(({ x, y }, i) => {
+    const status = ShipStatus.killed;
+    explosionArray.forEach(item => {
+      if (item.x === x && item.y === y) {
+        item.status = status;
+      }
+    })
+  });
+
+  return explosionArray;
+}

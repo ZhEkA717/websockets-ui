@@ -44,3 +44,10 @@ export type TypeShips = {
 };
 export type TypeStatusShip = 'alive' | TypeStatusAttack;
 type TypeSizeShip = 'small' | 'medium' | 'large' | 'huge';
+
+export type TypeGenerateShip = {
+  length: number;
+  type: TypeSizeShip;
+  amount?: number;
+  direction?: boolean;
+};

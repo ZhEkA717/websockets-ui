@@ -1,12 +1,13 @@
+import { eventEmitter } from '../handlers/singlePlay.handler';
 import { log } from '../services/log.service';
 import { searchShip } from '../services/ship.service';
 import { TypeShip, TypeShipData } from '../types/ship.type';
 import { TypeResponseTurn } from '../types/turn.type';
 import { CommandTypes, ID_VALUE, turnInGame } from '../utils/constants';
 
-let currentPlayer: number;
+export let currentPlayer: number;
 
-export const turn = (idGame: number) => {
+export const turn = (idGame: number): number => {
   const { data } = searchShip(idGame) as TypeShip;
   const [player1, player2]: TypeShipData[] = data as TypeShipData[];
 
@@ -21,9 +22,11 @@ export const turn = (idGame: number) => {
   };
 
   data.forEach(({ ws }) => {
-    ws.send(JSON.stringify(responseTurn));
+    ws?.send(JSON.stringify(responseTurn));
   });
   log(CommandTypes.turn, currentPlayer);
+  eventEmitter.emit(CommandTypes.attack, currentPlayer);
+  return currentPlayer;
 };
 
 const getCurrentPlayer = (id1: number, id2: number): number => {

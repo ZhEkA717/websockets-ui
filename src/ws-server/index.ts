@@ -5,8 +5,8 @@ import { addUserToRoomRequest, createRoomRequest } from '../handlers/room.handle
 import { createPlayerRequest } from '../handlers/player.handler';
 import { addShipRequest } from '../handlers/ship.handler';
 import { attackRequest, randomAttackRequest } from '../handlers/attack.handler';
-import { log } from '../services/log.service';
 import { deleteUserFromRoom } from '../services/room.service';
+import { singlePlayRequest } from '../handlers/singlePlay.handler';
 
 export const createWebsocketServer = () => {
   const { Server } = ws;
@@ -39,6 +39,9 @@ export const createWebsocketServer = () => {
           break;
         case CommandTypes.randomAttack:
           randomAttackRequest(msg);
+          break;
+        case CommandTypes.singlePlay:
+          singlePlayRequest(msg, ws);
           break;
       }
     });
