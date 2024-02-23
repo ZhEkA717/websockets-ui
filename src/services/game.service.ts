@@ -17,3 +17,9 @@ export const saveGame = (idGame: number, players: TypePlayer[]) => {
   const game: TypeGame = { idGame, players };
   games.push(game);
 };
+
+export const deleteGame = (idGame: number) => {
+  const game = games.find(item => item.idGame === idGame);
+  const index = games.indexOf(game as TypeGame);
+  games.splice(index, 1);
+}
