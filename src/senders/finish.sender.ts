@@ -1,10 +1,8 @@
 import { log } from '../services/log.service';
-import { searchPlayer } from '../services/player.service';
 import { TypeFinishResponse } from '../types/finish.type';
-import { TypePlayer } from '../types/player.type';
 import { TypeShipData } from '../types/ship.type';
 import { CommandTypes, ID_VALUE } from '../utils/constants';
-import { saveWinner, searchWinner } from './updateWinners.sender';
+import { searchWinner } from './updateWinners.sender';
 
 export const getFinishResponse = (idPlayer: number): string => {
   const response: TypeFinishResponse = {

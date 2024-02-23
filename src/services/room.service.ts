@@ -28,7 +28,7 @@ export const deleteRoom = (id: number) => {
 
 export const deleteUserFromRoom = (ws: WebSocket) => {
   const player: TypePlayer | undefined = players.find((item) => item.ws === ws);
-  const room = player && searchRoomByIdPlayer(player?.id) as TypeRoom;
+  const room = player && (searchRoomByIdPlayer(player?.id) as TypeRoom);
   if (player && room) {
     if (room.roomUsers.length === 2) {
       const playerInRoom = room.roomUsers.find((item) => item.index === player.id);

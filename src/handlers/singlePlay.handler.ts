@@ -39,15 +39,15 @@ export const singlePlayRequest = async (msg: string, ws: WebSocket) => {
     if (currentPlayer === id) {
       console.log(currentPlayer);
       setTimeout(() => {
-        const {x, y} = generatePos();
-        botAttack(gameId, id, {x, y});
+        const { x, y } = generatePos();
+        botAttack(gameId, id, { x, y });
       }, 0);
     }
   });
 };
 
-const botAttack = (gameId: number, indexPlayer: number, {x, y}: {x: number, y: number}) => {
-  const data: TypeDataRequestAttack = { gameId, indexPlayer, x, y }; 
+const botAttack = (gameId: number, indexPlayer: number, { x, y }: { x: number; y: number }) => {
+  const data: TypeDataRequestAttack = { gameId, indexPlayer, x, y };
   attackRequest(
     JSON.stringify({
       type: CommandTypes.attack,
@@ -55,11 +55,11 @@ const botAttack = (gameId: number, indexPlayer: number, {x, y}: {x: number, y: n
       id: ID_VALUE,
     } as TypeRequestAttack),
   );
-}
+};
 
-const generatePos = (): {x: number, y: number} => {
+const generatePos = (): { x: number; y: number } => {
   const x = getRandom(9);
   const y = getRandom(9);
 
-  return {x, y};
-}
+  return { x, y };
+};

@@ -6,7 +6,12 @@ import { attackPlayer } from '../services/attack.service';
 import { isFinish } from '../services/finish.service';
 import { deleteRoom, searchRoomByIdPlayer } from '../services/room.service';
 import { searchShip, shipExplosion } from '../services/ship.service';
-import { TypeDataRequestAttack, TypeRequestAttack, TypeRequestRandomAttack, TypeStatusAttack } from '../types/attack.type';
+import {
+  TypeDataRequestAttack,
+  TypeRequestAttack,
+  TypeRequestRandomAttack,
+  TypeStatusAttack,
+} from '../types/attack.type';
 import { TypeShip, TypeShipData } from '../types/ship.type';
 import { CommandTypes, ID_VALUE, ShipStatus, turnInGame } from '../utils/constants';
 import { eventEmitter } from './singlePlay.handler';
@@ -27,9 +32,9 @@ export const attackRequest = (msg: string) => {
       updateWinners();
       return;
     }
-  
+
     if (status !== ShipStatus.shot && status !== ShipStatus.killed) {
-      status && turn(gameId); 
+      status && turn(gameId);
     }
     eventEmitter.emit(CommandTypes.attack, currentPlayer);
   }

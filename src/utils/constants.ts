@@ -32,7 +32,7 @@ export const enum CommandTypes {
   randomAttack = 'randomAttack',
   turn = 'turn',
   finish = 'finish',
-  singlePlay = 'single_play'
+  singlePlay = 'single_play',
 }
 
 export const enum ShipStatus {

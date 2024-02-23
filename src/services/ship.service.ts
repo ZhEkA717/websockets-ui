@@ -31,7 +31,7 @@ export const saveShip = (data: TypeRequestDataAddShips) => {
       ship.data.push(dataShip);
       shipsInGame.push(ship);
     }
-    log(CommandTypes.addShips, `GameId: ${gameId}` , `PlayerId: ${indexPlayer}`)
+    log(CommandTypes.addShips, `GameId: ${gameId}`, `PlayerId: ${indexPlayer}`);
   }
   return searchShip(gameId)?.data.length === 2;
 };
@@ -80,14 +80,14 @@ export const shipExplosion = (
   });
 };
 
-export const getExplosionArray = (positions:{x: number, y: number, status?: TypeStatusShip}[] ) => {
+export const getExplosionArray = (positions: { x: number; y: number; status?: TypeStatusShip }[]) => {
   const explosionArray: { x: number; y: number; status: TypeStatusAttack }[] = [];
   positions.forEach(({ x, y }) => {
     const status = ShipStatus.miss;
-    explosionArray.push({ x: x - 1, y , status });
-    explosionArray.push({ x: x + 1, y, status });  
-    explosionArray.push({ x, y: y - 1 , status });
-    explosionArray.push({ x, y: y + 1, status });  
+    explosionArray.push({ x: x - 1, y, status });
+    explosionArray.push({ x: x + 1, y, status });
+    explosionArray.push({ x, y: y - 1, status });
+    explosionArray.push({ x, y: y + 1, status });
     explosionArray.push({ x: x - 1, y: y - 1, status });
     explosionArray.push({ x: x + 1, y: y + 1, status });
     explosionArray.push({ x: x - 1, y: y + 1, status });
@@ -95,12 +95,12 @@ export const getExplosionArray = (positions:{x: number, y: number, status?: Type
   });
   positions.forEach(({ x, y }, i) => {
     const status = ShipStatus.killed;
-    explosionArray.forEach(item => {
+    explosionArray.forEach((item) => {
       if (item.x === x && item.y === y) {
         item.status = status;
       }
-    })
+    });
   });
 
   return explosionArray;
-}
+};

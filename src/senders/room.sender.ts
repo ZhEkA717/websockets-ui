@@ -5,9 +5,8 @@ import { validate } from 'uuid';
 
 export const updateRoom = () => {
   const roomsWithOnePlayer = rooms
-  .filter(item => item.roomUsers.length === 1)
-  .filter(item => !validate(item.roomUsers[0].name));
-
+    .filter((item) => item.roomUsers.length === 1)
+    .filter((item) => !validate(item.roomUsers[0].name));
 
   const responseUpdateRoom: TypeResponseUpdateRoom = {
     type: CommandTypes.updateRoom,

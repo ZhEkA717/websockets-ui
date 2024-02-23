@@ -4,7 +4,7 @@ import { addUserToRoom, searchPlayer } from '../services/player.service';
 import { saveRoom } from '../services/room.service';
 import { TypePlayer } from '../types/player.type';
 import { TypeRequestAddUserToRoom, TypeRoom } from '../types/room.type';
-import { players, rooms } from '../utils/constants';
+import { players } from '../utils/constants';
 import { WebSocket } from 'ws';
 
 export const createRoomRequest = (ws: WebSocket): void => {

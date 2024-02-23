@@ -1,4 +1,3 @@
-import { v4 } from 'uuid';
 import { hugeShip, largeShip, mediumShip, rooms, smallShip } from '../utils/constants';
 import { getExplosionArray } from './ship.service';
 import { TypeGenerateShip, TypeShips } from '../types/ship.type';
@@ -110,6 +109,5 @@ export const getShips = (): TypeShips[] => {
         type: item.type,
       };
     });
-  console.log(ships);
   return ships;
 };

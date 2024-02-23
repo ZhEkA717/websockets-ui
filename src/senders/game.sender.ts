@@ -27,10 +27,9 @@ export const createGame = (indexRoom: number): number => {
         data: JSON.stringify(data),
         id: ID_VALUE,
       };
-      if (player.ws)
-        player.ws.send(JSON.stringify(responseCreateGame));
+      if (player.ws) player.ws.send(JSON.stringify(responseCreateGame));
     });
-    log(CommandTypes.createGame, `GameId: ${idGame}`, `RoomId: ${indexRoom}`)
+    log(CommandTypes.createGame, `GameId: ${idGame}`, `RoomId: ${indexRoom}`);
   }
   return idGame;
 };
@@ -44,8 +43,7 @@ export const startGame = (gameId: number) => {
       data: JSON.stringify({ ships, currentPlayerIndex }),
       id: ID_VALUE,
     };
-    if(ws)
-      ws.send(JSON.stringify(responseStartGame));
+    if (ws) ws.send(JSON.stringify(responseStartGame));
   });
   log(CommandTypes.startGame, `GameID: ${gameId}`);
 };
