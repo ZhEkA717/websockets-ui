@@ -35,13 +35,11 @@ export const singlePlayRequest = async (msg: string, ws: WebSocket) => {
   addShipRequest(JSON.stringify(resBot));
 
   eventEmitter.on(CommandTypes.attack, (currentPlayer) => {
-    console.log(currentPlayer === id);
     if (currentPlayer === id) {
-      console.log(currentPlayer);
       setTimeout(() => {
         const { x, y } = generatePos();
         botAttack(gameId, id, { x, y });
-      }, 0);
+      }, 2000);
     }
   });
 };

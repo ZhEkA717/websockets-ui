@@ -1,5 +1,5 @@
 import ws, { WebSocket } from 'ws';
-import { CommandTypes, PORT, players, rooms } from '../utils/constants';
+import { CommandTypes, PORT } from '../utils/constants';
 import { updateRoom } from '../senders/room.sender';
 import { addUserToRoomRequest, createRoomRequest } from '../handlers/room.handler';
 import { createPlayerRequest } from '../handlers/player.handler';
@@ -7,6 +7,7 @@ import { addShipRequest } from '../handlers/ship.handler';
 import { attackRequest, randomAttackRequest } from '../handlers/attack.handler';
 import { deleteUserFromRoom } from '../services/room.service';
 import { singlePlayRequest } from '../handlers/singlePlay.handler';
+import { autoFinish } from '../services/finish.service';
 
 export const createWebsocketServer = () => {
   const { Server } = ws;
@@ -49,6 +50,7 @@ export const createWebsocketServer = () => {
     ws.on('close', (_closeCode: number) => {
       console.log(`Old socket disconnection. id: ${idSocket}`);
       deleteUserFromRoom(ws);
+      autoFinish(ws);
       updateRoom();
     });
   });
